@@ -1,0 +1,710 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Pieter — bedframe briefing (DRAFT)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --ink: #1a1814;
+      --muted: #5c574e;
+      --line: #2a2620;
+      --paper: #f3efe6;
+      --paper2: #e8e2d4;
+      --accent: #8b3a2a;
+      --ok: #2d5a3d;
+      --twijfel: #8a6a20;
+      --anders: #8b3a2a;
+      --draft: #b54a2e;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: "IBM Plex Sans", system-ui, sans-serif;
+      color: var(--ink);
+      background:
+        radial-gradient(ellipse at 20% 0%, #fff9ee 0%, transparent 50%),
+        repeating-linear-gradient(0deg, transparent, transparent 27px, rgba(42,38,32,0.04) 28px),
+        var(--paper);
+      line-height: 1.45;
+    }
+    a { color: var(--accent); }
+    .wrap { max-width: 880px; margin: 0 auto; padding: 1.25rem 1.25rem 3rem; }
+    header.top {
+      border-bottom: 2px dashed var(--line);
+      padding: 1rem 0 1.25rem;
+      margin-bottom: 1.5rem;
+    }
+    .stamp {
+      display: inline-block;
+      font-family: "IBM Plex Mono", monospace;
+      font-size: 0.72rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      border: 2px solid var(--draft);
+      color: var(--draft);
+      padding: 0.15rem 0.45rem;
+      transform: rotate(-3deg);
+      margin-right: 0.5rem;
+    }
+    h1 {
+      font-family: Caveat, cursive;
+      font-size: clamp(2.4rem, 6vw, 3.4rem);
+      font-weight: 700;
+      margin: 0.4rem 0 0.2rem;
+      line-height: 1.05;
+    }
+    .lede { color: var(--muted); max-width: 38rem; }
+    nav.layers {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      margin: 1.25rem 0 0;
+      position: sticky;
+      top: 0;
+      z-index: 5;
+      background: color-mix(in srgb, var(--paper) 92%, transparent);
+      backdrop-filter: blur(4px);
+      padding: 0.5rem 0;
+      border-bottom: 1px solid color-mix(in srgb, var(--line) 25%, transparent);
+    }
+    nav.layers a {
+      text-decoration: none;
+      color: var(--ink);
+      border: 1.5px solid var(--line);
+      padding: 0.3rem 0.65rem;
+      font-size: 0.85rem;
+      background: var(--paper2);
+    }
+    nav.layers a:hover { background: #fff; }
+    section.layer {
+      margin: 2.25rem 0;
+      padding: 1.25rem 1.1rem 1.5rem;
+      border: 2px solid var(--line);
+      background: color-mix(in srgb, #fff 55%, var(--paper));
+      box-shadow: 3px 3px 0 color-mix(in srgb, var(--line) 18%, transparent);
+    }
+    section.layer h2 {
+      font-family: Caveat, cursive;
+      font-size: 2rem;
+      margin: 0 0 0.35rem;
+      font-weight: 700;
+    }
+    .layer-tag {
+      font-family: "IBM Plex Mono", monospace;
+      font-size: 0.7rem;
+      color: var(--muted);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+    ul.tight { margin: 0.5rem 0 0; padding-left: 1.2rem; }
+    ul.tight li { margin: 0.25rem 0; }
+    .callout {
+      margin: 1rem 0;
+      padding: 0.75rem 0.9rem;
+      border-left: 4px solid var(--accent);
+      background: var(--paper2);
+    }
+    .callout strong { font-family: Caveat, cursive; font-size: 1.35rem; }
+    .sketch {
+      margin: 1rem 0;
+      padding: 0.75rem;
+      border: 1.5px dashed var(--line);
+      background: #fffef9;
+      overflow-x: auto;
+    }
+    .sketch svg { display: block; width: 100%; height: auto; max-width: 640px; margin: 0 auto; }
+    .sketch figcaption {
+      font-family: Caveat, cursive;
+      font-size: 1.15rem;
+      color: var(--muted);
+      margin-top: 0.4rem;
+      text-align: center;
+    }
+    .ask {
+      margin-top: 0.75rem;
+      font-style: italic;
+      color: var(--accent);
+    }
+    .check {
+      border-top: 1px dashed color-mix(in srgb, var(--line) 40%, transparent);
+      padding: 1rem 0 0.25rem;
+      margin-top: 1rem;
+    }
+    .check:first-of-type { border-top: 0; margin-top: 0.5rem; }
+    .check h3 {
+      margin: 0 0 0.35rem;
+      font-size: 1.05rem;
+      font-weight: 600;
+    }
+    .check .meta {
+      font-family: "IBM Plex Mono", monospace;
+      font-size: 0.72rem;
+      color: var(--muted);
+      margin-bottom: 0.4rem;
+    }
+    .check p { margin: 0.35rem 0; font-size: 0.95rem; }
+    .review-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      align-items: center;
+      margin-top: 0.55rem;
+    }
+    .review-row button {
+      font-family: "IBM Plex Sans", sans-serif;
+      font-size: 0.8rem;
+      border: 1.5px solid var(--line);
+      background: #fff;
+      padding: 0.28rem 0.55rem;
+      cursor: pointer;
+    }
+    .review-row button[aria-pressed="true"].ok { background: #d9ece0; border-color: var(--ok); }
+    .review-row button[aria-pressed="true"].twijfel { background: #f5e9c8; border-color: var(--twijfel); }
+    .review-row button[aria-pressed="true"].anders { background: #f3d9d2; border-color: var(--anders); }
+    .tip {
+      width: 100%;
+      margin-top: 0.35rem;
+      font-family: inherit;
+      font-size: 0.9rem;
+      padding: 0.4rem 0.5rem;
+      border: 1.5px dashed var(--line);
+      background: #fffef9;
+      resize: vertical;
+      min-height: 2.2rem;
+    }
+    details.block {
+      margin: 0.65rem 0;
+      border: 1.5px solid var(--line);
+      background: #fffef9;
+      padding: 0.35rem 0.75rem 0.6rem;
+    }
+    details.block summary {
+      cursor: pointer;
+      font-weight: 600;
+      padding: 0.35rem 0;
+    }
+    table.dims {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.88rem;
+      margin: 0.5rem 0;
+    }
+    table.dims th, table.dims td {
+      border-bottom: 1px solid color-mix(in srgb, var(--line) 30%, transparent);
+      text-align: left;
+      padding: 0.35rem 0.4rem;
+      vertical-align: top;
+    }
+    table.dims th { font-family: "IBM Plex Mono", monospace; font-size: 0.72rem; color: var(--muted); font-weight: 500; }
+    .split-two {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.75rem;
+      margin: 1rem 0;
+    }
+    @media (max-width: 640px) {
+      .split-two { grid-template-columns: 1fr; }
+    }
+    .split-card {
+      border: 1.5px solid var(--line);
+      background: #fffef9;
+      padding: 0.75rem 0.85rem;
+    }
+    .split-card h3 {
+      margin: 0 0 0.35rem;
+      font-family: Caveat, cursive;
+      font-size: 1.45rem;
+      font-weight: 700;
+    }
+    .split-card.buy { border-left: 4px solid var(--muted); }
+    .split-card.build { border-left: 4px solid var(--accent); }
+    .open-tag {
+      font-family: "IBM Plex Mono", monospace;
+      font-size: 0.68rem;
+      color: var(--draft);
+      letter-spacing: 0.04em;
+    }
+    .kind { font-family: "IBM Plex Mono", monospace; font-size: 0.7rem; }
+    .kind.missing { color: var(--draft); }
+    .kind.nominal, .kind.derived { color: var(--muted); }
+    footer.foot {
+      margin-top: 2rem;
+      padding-top: 1rem;
+      border-top: 2px dashed var(--line);
+      font-size: 0.85rem;
+      color: var(--muted);
+    }
+    .export-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-top: 1rem;
+    }
+    .export-bar button {
+      font-family: inherit;
+      border: 1.5px solid var(--line);
+      background: var(--paper2);
+      padding: 0.4rem 0.7rem;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header class="top">
+      <span class="stamp">DRAFT · PROVISIONAL</span>
+      <h1>Pieter — bedframe briefing</h1>
+      <p><a href="index.html" style="color:#8b3a2a">← Overzicht</a></p>
+      <p class="lede">
+        Herbaseline na jouw input: overall ≤2000 mm inclusief inset-poten, 2× NORDLI 80×54 op wielen (+20 mm gegeven),
+        plaatsbare middensteun, droge stijfheidstest. Eerst ontwerp, daarna jouw check. Bron: <code>design/dimensions.yaml</code>.
+      </p>
+      <nav class="layers" aria-label="Lagen">
+        <a href="#idee">1 Idee</a>
+        <a href="#opzet">2 Opzet</a>
+        <a href="#ontwerp">3 Ontwerp</a>
+        <a href="#materiaal">4 Check</a>
+        <a href="#details">5 Details</a>
+      </nav>
+    </header>
+
+    <!-- ========== LAAG 1: IDEE ========== -->
+    <section class="layer" id="idee">
+      <p class="layer-tag">Laag 1 · Idee</p>
+      <h2>Wat is het plan?</h2>
+      <ul class="tight">
+        <li><strong>Twee identieke NORDLI 80×54</strong> (samen 1600 mm) onder de ladenzijde — op jouw ~20 mm-rolletjes; niet dragend (D015).</li>
+        <li>Demontabel <strong>zelfdragend frame</strong>; matras measured 1370×1970×170; overall L ≤ <strong>2000 mm inclusief inset-poten</strong>.</li>
+        <li>Open zijde: grote berging + radiator; optioneel <strong>plaatsbare</strong> middensteun (poot in houder) — niet nodig voor balksterkte.</li>
+      </ul>
+      <div class="callout">
+        <strong>Winstpunt:</strong> laden kant-en-klaar + wegrolbaar; open zijde vrij; bed past in studentenhuis-envelope.
+      </div>
+      <details class="block">
+        <summary>Mondelinge 5-min intro</summary>
+        <ol>
+          <li>2× NORDLI 80×54 + rolletjes → opslag only; frame steunt er niet op.</li>
+          <li>Frame ≤2000 mm inclusief poten naar binnen; kasten 1600 &lt; plafond 1850.</li>
+          <li>Hoogteketen: kast+wielen 560 + ≥30 → ondervlak ≥590.</li>
+          <li>Jouw check: droge racking (<code>stijfheid-check-draft.html</code>), middensteun-detail (Q014), rolletjes monteren (Q016).</li>
+          <li>DRAFT: lattenbodemdikte (Q002) nog meten vóór FINAL zaag.</li>
+        </ol>
+      </details>
+    </section>
+
+    <!-- ========== LAAG 2: OPZET ========== -->
+    <section class="layer" id="opzet">
+      <p class="layer-tag">Laag 2 · Opzet</p>
+      <h2>Vorm — schets, niet netjes</h2>
+      <p>Oriëntatie vast: <strong>ladenzijde</strong> / <strong>open zijde</strong> (niet links/rechts voor die kanten). Rechter zijaanzicht = kijken vanaf de ladenzijde: <em>voet links, kop rechts</em>.</p>
+
+      <figure class="sketch" aria-label="Rechter zijaanzicht schets">
+        <svg viewBox="0 0 640 300" role="img">
+          <title>Rechter zijaanzicht — ladenzijde</title>
+          <!-- floor wobble -->
+          <path d="M40 250 Q180 246 320 252 T600 248" fill="none" stroke="#1a1814" stroke-width="1.6" stroke-linecap="round"/>
+          <!-- legs rough -->
+          <path d="M90 140 L95 250 M530 140 L525 250" fill="none" stroke="#1a1814" stroke-width="2.2"/>
+          <!-- rail -->
+          <path d="M85 138 H535" fill="none" stroke="#1a1814" stroke-width="2.4"/>
+          <!-- mattress -->
+          <path d="M95 105 H520 Q528 105 528 115 V138 H95 Z" fill="#f3efe6" stroke="#1a1814" stroke-width="1.8"/>
+          <!-- pillows -->
+          <rect x="430" y="72" width="42" height="34" rx="3" fill="none" stroke="#1a1814" stroke-width="1.5" transform="rotate(-4 451 89)"/>
+          <rect x="478" y="70" width="42" height="34" rx="3" fill="none" stroke="#1a1814" stroke-width="1.5" transform="rotate(3 499 87)"/>
+          <!-- NORDLI 80+80 dashed under; legs inset -->
+          <rect x="130" y="150" width="175" height="78" fill="none" stroke="#1a1814" stroke-width="1.4" stroke-dasharray="6 5"/>
+          <text x="217" y="198" text-anchor="middle" fill="#5c574e" font-family="Caveat, cursive" font-size="20">NORDLI 80</text>
+          <rect x="320" y="150" width="175" height="78" fill="none" stroke="#1a1814" stroke-width="1.4" stroke-dasharray="6 5"/>
+          <text x="407" y="198" text-anchor="middle" fill="#5c574e" font-family="Caveat, cursive" font-size="20">NORDLI 80</text>
+          <text x="217" y="235" text-anchor="middle" fill="#8b3a2a" font-family="Caveat, cursive" font-size="16">+20 mm wielen</text>
+          <text x="407" y="235" text-anchor="middle" fill="#8b3a2a" font-family="Caveat, cursive" font-size="16">gegeven</text>
+          <text x="90" y="280" fill="#5c574e" font-family="Caveat, cursive" font-size="20">VOET</text>
+          <text x="510" y="280" fill="#5c574e" font-family="Caveat, cursive" font-size="20">KOP</text>
+          <text x="320" y="28" text-anchor="middle" fill="#8b3a2a" font-family="Caveat, cursive" font-size="22">overall ≤2000 · top ~76–82 cm</text>
+        </svg>
+        <figcaption>Rechter zijaanzicht · ladenzijde · 2×80 op wielen · poten inset</figcaption>
+      </figure>
+
+      <figure class="sketch" aria-label="Bovenaanzicht schets">
+        <svg viewBox="0 0 420 520" role="img">
+          <title>Bovenaanzicht</title>
+          <!-- mattress full -->
+          <rect x="40" y="40" width="280" height="420" fill="#f3efe6" stroke="#1a1814" stroke-width="2"/>
+          <!-- pillows full width -->
+          <rect x="55" y="55" width="115" height="55" rx="4" fill="none" stroke="#1a1814" stroke-width="1.5"/>
+          <rect x="185" y="55" width="115" height="55" rx="4" fill="none" stroke="#1a1814" stroke-width="1.5"/>
+          <text x="180" y="150" text-anchor="middle" fill="#5c574e" font-family="Caveat, cursive" font-size="20">matras 1370 × 1970</text>
+          <text x="180" y="178" text-anchor="middle" fill="#8b3a2a" font-family="Caveat, cursive" font-size="16">envelope L ≤ 2000 incl. poten</text>
+          <!-- NORDLI 80+80 under right - dashed; shorter than mattress length -->
+          <rect x="240" y="70" width="80" height="168" fill="none" stroke="#1a1814" stroke-width="1.5" stroke-dasharray="5 4"/>
+          <rect x="240" y="248" width="80" height="168" fill="none" stroke="#1a1814" stroke-width="1.5" stroke-dasharray="5 4"/>
+          <text x="280" y="155" text-anchor="middle" fill="#5c574e" font-family="Caveat, cursive" font-size="15" transform="rotate(90 280 155)">80 · kop</text>
+          <text x="280" y="340" text-anchor="middle" fill="#5c574e" font-family="Caveat, cursive" font-size="15" transform="rotate(90 280 340)">80 · voet</text>
+          <!-- open side label -->
+          <text x="20" y="260" text-anchor="middle" fill="#8b3a2a" font-family="Caveat, cursive" font-size="20" transform="rotate(-90 20 260)">OPEN ZIJDE → grote berging</text>
+          <text x="360" y="260" fill="#5c574e" font-family="Caveat, cursive" font-size="18" transform="rotate(90 360 260)">ladenzijde</text>
+          <text x="180" y="490" text-anchor="middle" fill="#5c574e" font-family="Caveat, cursive" font-size="18">VOET</text>
+          <text x="180" y="28" text-anchor="middle" fill="#5c574e" font-family="Caveat, cursive" font-size="18">KOP</text>
+        </svg>
+        <figcaption>Bovenaanzicht · matras dekt volle voetprint · NORDLI gestippeld eronder</figcaption>
+      </figure>
+
+      <div class="callout">
+        <strong>Open zijde = de grote winst.</strong>
+        Tent, grote koffer, seizoenspul — volle lengte, geen ladewand in de weg.
+        <p class="ask">Waar zou jij die ruimte nóg handiger maken? (schotje, rail, vloerplaat, …)</p>
+      </div>
+    </section>
+
+    <!-- ========== LAAG 3: ONTWERP ========== -->
+    <section class="layer" id="ontwerp">
+      <p class="layer-tag">Laag 3 · Ontwerp (baseline)</p>
+      <h2>Hoe zit het in elkaar</h2>
+      <p>Dit is wat we nu willen bouwen. Jouw check komt erna — eerst dit beeld scherp.</p>
+
+      <div class="split-two">
+        <div class="split-card buy">
+          <h3>1 · Kopen — D015</h3>
+          <p>Twee <strong>identieke</strong> IKEA NORDLI onder de <strong>ladenzijde</strong>:</p>
+          <ul class="tight">
+            <li>2× 800 × 470 × 540 mm (elk 2 laden)</li>
+            <li>Samen <strong>1600 mm</strong> (plafond zoek ≤1850)</li>
+            <li>+ jouw rolletjes <strong>~20 mm</strong> → top <strong>560</strong> (gegeven)</li>
+          </ul>
+          <p>Niet dragend (D002). Wegrolbaar voor schoonmaken / winter-fallback radiator. Kleur wit/antraciet nog open.</p>
+        </div>
+        <div class="split-card build">
+          <h3>2 · Bouwen — het frame</h3>
+          <p>Zelfdragend frame; matras <strong>1370×1970×170</strong>; overall L ≤ <strong>2000 inclusief inset-poten</strong>. Open zijde vrij van permanente middenpoot.</p>
+          <ul class="tight">
+            <li>2 eindframes (kop + voet) — mogen permanent stijf</li>
+            <li>2 zijliggers C24 ~44×94</li>
+            <li>1 middenbalk C24 ~44×120 (+ optionele plaatsbare steun D012)</li>
+            <li>multiplex knieschoren; bocht bij voorkeur niet op ladenzijde</li>
+            <li>2 lattenbodems op draaglatten + middenbalk</li>
+          </ul>
+        </div>
+      </div>
+
+      <h3 style="margin:1.25rem 0 0.35rem;font-size:1.05rem;">Hoogteketen (mm)</h3>
+      <p>Framehoogte volgt uit opslag + wielen + speling + constructie + lattenbodem + matras.</p>
+      <table class="dims">
+        <thead><tr><th>Stap</th><th>Waarde</th><th>Kind</th></tr></thead>
+        <tbody>
+          <tr><td>NORDLI lichaam</td><td>540</td><td><span class="kind nominal">catalogus · D015</span></td></tr>
+          <tr><td>Wielen</td><td>+20</td><td><span class="kind nominal">gegeven · D011</span></td></tr>
+          <tr><td>Kasttop met wielen</td><td>560</td><td><span class="kind derived">gekozen · Q004 dicht</span></td></tr>
+          <tr><td>Lucht boven kast</td><td>≥ 30</td><td><span class="kind nominal">gekozen · D003</span></td></tr>
+          <tr><td>Ondervlak dragend</td><td>≥ 590</td><td><span class="kind derived">560+30</span></td></tr>
+          <tr><td>Matras-top (doelband)</td><td>750–820</td><td><span class="kind nominal">nominal band</span></td></tr>
+          <tr><td>Poothoogte / -sectie</td><td>—</td><td><span class="kind missing">na Q002 · Q011</span></td></tr>
+        </tbody>
+      </table>
+
+      <figure class="sketch" aria-label="Doorsnede hoogte en speling">
+        <svg viewBox="0 0 640 280" role="img">
+          <title>Dwarsdoorsnede — NORDLI onder frame, speling, lastpad</title>
+          <path d="M30 240 H610" fill="none" stroke="#1a1814" stroke-width="1.5"/>
+          <!-- NORDLI block -->
+          <rect x="70" y="150" width="200" height="90" fill="none" stroke="#1a1814" stroke-width="1.5" stroke-dasharray="6 5"/>
+          <text x="170" y="205" text-anchor="middle" fill="#5c574e" font-family="Caveat, cursive" font-size="22">NORDLI · niet dragend</text>
+          <!-- clearance arrow -->
+          <path d="M290 150 V120" fill="none" stroke="#8b3a2a" stroke-width="1.8"/>
+          <path d="M285 125 L290 118 L295 125" fill="none" stroke="#8b3a2a" stroke-width="1.6"/>
+          <path d="M285 145 L290 152 L295 145" fill="none" stroke="#8b3a2a" stroke-width="1.6"/>
+          <text x="310" y="140" fill="#8b3a2a" font-family="Caveat, cursive" font-size="22">≥ 30 mm</text>
+          <!-- rail / underside -->
+          <path d="M60 118 H400" fill="none" stroke="#1a1814" stroke-width="3"/>
+          <text x="230" y="108" text-anchor="middle" fill="#5c574e" font-family="Caveat, cursive" font-size="18">zijligger / ondervlak ≥ 590</text>
+          <!-- centre beam hint -->
+          <rect x="300" y="95" width="28" height="23" fill="#f3efe6" stroke="#1a1814" stroke-width="1.6"/>
+          <text x="314" y="88" text-anchor="middle" fill="#5c574e" font-family="Caveat, cursive" font-size="16">midden ~44×120</text>
+          <!-- leg -->
+          <path d="M380 118 L385 240" fill="none" stroke="#1a1814" stroke-width="2.2"/>
+          <text x="400" y="200" fill="#5c574e" font-family="Caveat, cursive" font-size="18">hoekpoot</text>
+          <!-- mattress -->
+          <path d="M70 70 H390 V118 H70 Z" fill="#f3efe6" stroke="#1a1814" stroke-width="1.6"/>
+          <text x="230" y="55" text-anchor="middle" fill="#8b3a2a" font-family="Caveat, cursive" font-size="22">matras-top 750–820</text>
+          <!-- open side note -->
+          <text x="480" y="155" fill="#8b3a2a" font-family="Caveat, cursive" font-size="18">open zijde →</text>
+          <text x="480" y="178" fill="#5c574e" font-family="Caveat, cursive" font-size="16">geen vaste middenpoot</text>
+          <text x="480" y="200" fill="#5c574e" font-family="Caveat, cursive" font-size="16">wel plaatsbare steun</text>
+        </svg>
+        <figcaption>Doorsnede · 560+30 → ≥590 · last via poten · steun optioneel</figcaption>
+      </figure>
+
+      <h3 style="margin:1.25rem 0 0.35rem;font-size:1.05rem;">Verbindingen — baseline + gedachte</h3>
+      <p>Demontabel waar het bij verhuizing los moet; permanent waar stijfheid tegen wiebelen nodig is. Historie: kraakgevoelig bed → spelingarm houden.</p>
+      <table class="dims">
+        <thead><tr><th>Naad</th><th>Voorstel</th><th>Waarom</th><th>Status</th></tr></thead>
+        <tbody>
+          <tr>
+            <td>Zijligger ↔ eindframe</td>
+            <td>M8 meubelbout + dwarsmoer</td>
+            <td>Demontabel, verkrijgbaar, herbruikbaar (D004). Geen lijm op die naden (D005).</td>
+            <td><span class="kind nominal">baseline</span></td>
+          </tr>
+          <tr>
+            <td>Eindframe (kop/voet)</td>
+            <td>Permanent stijf (lijm/schroef ok)</td>
+            <td>Breedte-stijfheid; anti-wiebel in korte richting.</td>
+            <td><span class="kind nominal">gekozen</span></td>
+          </tr>
+          <tr>
+            <td>Middenbalk-oplegging</td>
+            <td>Demontabel op raveel-/balkdragers</td>
+            <td>Lattenbodems steunen in het midden; demontage zonder frame te vernielen.</td>
+            <td><span class="open-tag">open · Q009</span></td>
+          </tr>
+          <tr>
+            <td>Hoekbeslag (extra)</td>
+            <td>Spelingarm; type TBD</td>
+            <td>M8 baseline mag; beter beslag als praktijk dat aantoont (Q006).</td>
+            <td><span class="open-tag">open · Q006</span></td>
+          </tr>
+          <tr>
+            <td>Anti-wiebel lengte</td>
+            <td>Multiplex knieschoren bij hoeken</td>
+            <td>Dikkere balken lossen racking niet op. Losse diagonaalstrips = geen eindstrategie (naspannen/speling/kraak).</td>
+            <td><span class="kind nominal">richting D007</span> · <span class="open-tag">detail Q007</span></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="callout">
+        <strong>Kort:</strong> 2× NORDLI 80×54 + wielen 560 gegeven. Frame overall ≤2000 inset-poten, ondervlak ≥590, M8 demontabel, knieschoren + droge test. Open: Q014 houder (brief), Q006/Q007/Q009.
+      </div>
+    </section>
+
+    <!-- ========== LAAG 4: CHECK ========== -->
+    <section class="layer" id="materiaal">
+      <p class="layer-tag">Laag 4 · Jouw check</p>
+      <h2>Check — klopt dit ontwerp?</h2>
+      <p>Hieronder toets je wat in <a href="#ontwerp">Ontwerp</a> staat — geen nieuwe plan-uitleg. Volgorde: stevigheid/wiebel → middenbalk → speling/maten → verbindingen. Klik <em>ok / twijfel / anders</em>; tip welkom.</p>
+      <div class="export-bar">
+        <button type="button" id="btnExport">Toon samenvatting reviews</button>
+        <button type="button" id="btnClear">Wis lokale reviews</button>
+      </div>
+      <pre id="reviewDump" hidden style="background:#fffef9;border:1px dashed #2a2620;padding:0.75rem;overflow:auto;font-size:0.8rem;"></pre>
+
+      <article class="check" data-id="C1">
+        <h3>C1 — Frame zelfdragend (niet op NORDLI)</h3>
+        <p class="meta">review van Ontwerp · D002</p>
+        <p>Twee losse NORDLI 80×54 = opslag only; last via frame + 4 hoekpoten (eventueel + plaatsbare steun onder balk).</p>
+        <p class="ask">Strikt gescheiden houden, of zou jij NORDLI ooit wél laten meedragen?</p>
+        <div class="review-row" data-review="C1"></div>
+      </article>
+
+      <article class="check" data-id="C2">
+        <h3>C2 — Niet wiebelen (knieschoren)</h3>
+        <p class="meta">review van Ontwerp · D007 · detail Q007 open</p>
+        <p>Baseline: multiplex knieschoren + stijve eindframes; geen losse diagonaalstrips als eindstrategie. Plaatdikte/boutpatroon/aantal nog open.</p>
+        <p class="ask">Welk knieschoor-detail zou jij zo aanpakken (plaat, bouten, aantal)?</p>
+        <div class="review-row" data-review="C2"></div>
+      </article>
+
+      <article class="check" data-id="C3">
+        <h3>C3 — Middenbalk C24 ~44×120</h3>
+        <p class="meta">review van Ontwerp · D006 · Q005 handelsmaat</p>
+        <p>Voorkeur ~44×120 (sterke as verticaal). 44×94 te “veer” op L/300-proxy; 44×144 stijver dan nodig / meer hoogteverlies. Staal bewust niet gekozen.</p>
+        <p class="ask">Bij overspanning ~2 m: zelfde sectie, of anders?</p>
+        <div class="review-row" data-review="C3"></div>
+      </article>
+
+      <article class="check" data-id="C6">
+        <h3>C6 — Speling ≥30 mm / ondervlak ≥590</h3>
+        <p class="meta">hoogteketen · D003 · D011</p>
+        <p>Kasttop met wielen = <strong>560 gegeven</strong> (540+20). Speling ≥30 → ondervlak ≥590. 15 mm was te krap.</p>
+        <div class="review-row" data-review="C6"></div>
+      </article>
+
+      <article class="check" data-id="C9">
+        <h3>C9 — Plaatsbare middensteun (poot+houder)</h3>
+        <p class="meta">D012 · detail Q014</p>
+        <p>Handmatig onder de middenbalk; geen scharnier. Balk rekenen alsof steun weg is. 1–3 stuks comfort only.</p>
+        <p class="ask">Hoe zou jij de houder/poot detaileren (U/nok/…)? Schets welkom.</p>
+        <div class="review-row" data-review="C9"></div>
+      </article>
+
+      <article class="check" data-id="C7">
+        <h3>C7 — Open metingen (nog niet FINAL zagen)</h3>
+        <p class="meta">Q001–Q002, Q005, Q011</p>
+        <table class="dims">
+          <thead><tr><th>Item</th><th>Waarde nu</th><th>Kind</th></tr></thead>
+          <tbody>
+            <tr><td>Matras L×B×D</td><td>1370 × 1970 × 170</td><td><span class="kind nominal">measured</span></td></tr>
+            <tr><td>Lattenbodem elk</td><td>~700 × 2000 (2×)</td><td><span class="kind nominal">provisional · Q001</span></td></tr>
+            <tr><td>Lattenbodemdikte</td><td>—</td><td><span class="kind missing">missing · Q002</span></td></tr>
+            <tr><td>NORDLI 2×80×54</td><td>1600 × 470; top 560</td><td><span class="kind nominal">D015 · Q004 dicht</span></td></tr>
+            <tr><td>Overall L incl. poten</td><td>≤ 2000</td><td><span class="kind nominal">D009</span></td></tr>
+            <tr><td>Zijligger</td><td>C24 ~44×94</td><td><span class="kind nominal">nominal</span></td></tr>
+            <tr><td>Middenbalk</td><td>C24 ~44×120</td><td><span class="kind nominal">Q005 handelsmaat</span></td></tr>
+            <tr><td>Doel matras-top</td><td>750–820</td><td><span class="kind nominal">nominal band</span></td></tr>
+          </tbody>
+        </table>
+        <p class="ask">Zie jij een maat die we nu al verkeerd inschatten?</p>
+        <div class="review-row" data-review="C7"></div>
+      </article>
+
+      <article class="check" data-id="C8">
+        <h3>C8 — Verbindingen &amp; opleggingen</h3>
+        <p class="meta">review van Ontwerp-tabel · D004 · Q006 / Q009 open</p>
+        <p>Baseline M8 + dwarsmoer; eindframes permanent; middenbalk op raveeldragers (type open); hoekbeslag type open. Hier weegt praktijkervaring zwaar.</p>
+        <p class="ask">Welk beslag/oplegging zou jij nemen (merk/type of principe)?</p>
+        <div class="review-row" data-review="C8"></div>
+      </article>
+
+      <details class="block" style="margin-top:1.25rem;">
+        <summary>Optioneel: hout / levensduur / alternatieven (C4–C5)</summary>
+        <article class="check" data-id="C4">
+          <h3>C4 — Levensduur binnenshuis</h3>
+          <p class="meta">research · EN 335 UC1 / EC5 SC1 · géén “X jaar”-normclaim</p>
+          <p>Droog binnen: schimmelrisico verwaarloosbaar zolang droog. EN 350 “klasse 4 vuren” = grondcontact — misleidend indoor. Limiter eerder: stijfheid, verbindingen, kraak — niet “houtrot van C24”.</p>
+          <p class="ask">Mis je een behandeling/afwerking die jij standaard zou doen?</p>
+          <div class="review-row" data-review="C4"></div>
+        </article>
+        <article class="check" data-id="C5">
+          <h3>C5 — Alternatieven (wanneer anders)</h3>
+          <p class="meta">research/c24-alternatieven-levensduur.md</p>
+          <ul class="tight">
+            <li><strong>C16/C18:</strong> soepeler (~27% bij C16) — alleen met grotere sectie.</li>
+            <li><strong>C30:</strong> ~9% stijver — zelden de moeite vs. C24 op voorraad.</li>
+            <li><strong>KVH C24:</strong> zelfde klasse, rechter/droger/geschaafd — bij twist of lastige handelsmaat.</li>
+            <li><strong>Hardhout:</strong> eventueel alleen slijt-/oplegpunten.</li>
+            <li><strong>Staal middenbalk:</strong> benchmark, niet voorkeur (D006).</li>
+          </ul>
+          <p class="ask">Welk materiaal zou jij hier wél forceren, en waarom?</p>
+          <div class="review-row" data-review="C5"></div>
+        </article>
+      </details>
+    </section>
+
+    <!-- ========== LAAG 5: DETAILS ========== -->
+    <section class="layer" id="details">
+      <p class="layer-tag">Laag 5 · Details (dicht tot je wilt)</p>
+      <h2>Dieper — inklappen</h2>
+
+      <details class="block">
+        <summary>NORDLI-laden (4 stuks) — indeling</summary>
+        <p>2× module 80×54 = elk 2 brede laden boven elkaar → <strong>4 laden totaal</strong>. Kleur TBD.</p>
+        <p>Lennart-preview: <a href="lennart-bed-preview.html">lennart-bed-preview.html</a> · stijfheid: <a href="stijfheid-check-draft.html">stijfheid-check-draft.html</a></p>
+      </details>
+
+      <details class="block">
+        <summary>Grove materiaallijst (DRAFT — geen FINAL zaag)</summary>
+        <p>Geen zaaglengtes FINAL tot o.a. Q002 gemeten + racking-ok (D008).</p>
+        <ul class="tight">
+          <li>NORDLI 2× 80×54 — kopen (S011); rolletjes (S012)</li>
+          <li>C24 ~44×94 — zijliggers / eindframe-kandidaten</li>
+          <li>C24 ~44×120 — middenbalk (voorkeur)</li>
+          <li>Multiplex — knieschoren (Q007)</li>
+          <li>M8 + dwarsmoeren; hoekbeslag TBD (Q006)</li>
+          <li>Raveeldragers (Q009); middensteun-detail (Q014)</li>
+        </ul>
+      </details>
+
+      <details class="block">
+        <summary>Meetprotocol (minimum)</summary>
+        <ol>
+          <li>Beide lattenbodems: L×B×D op meerdere punten; noteer max (Q001/Q002).</li>
+          <li>Matras 1370×1970×170 al vast.</li>
+          <li>Foto’s met liniaal → <code>assets/photos/</code>.</li>
+        </ol>
+      </details>
+
+      <details class="block">
+        <summary>Research C24 / alternatieven</summary>
+        <p>Volledige primary-source nota: <code>research/c24-alternatieven-levensduur.md</code>. Korte check: C4/C5 onder Check (ingeklapt).</p>
+      </details>
+
+      <details class="block">
+        <summary>Prioriteiten (project)</summary>
+        <ol>
+          <li>Veilig en stevig genoeg</li>
+          <li>Niet wiebelen</li>
+          <li>Niet kraken</li>
+          <li>Eenvoudige montage</li>
+          <li>Demontabel/verhuisbaar</li>
+          <li>Grote opslag behouden</li>
+          <li>Verkrijgbaar materiaal · redelijke kosten · esthetiek later</li>
+        </ol>
+      </details>
+    </section>
+
+    <footer class="foot">
+      <p>Status: DRAFT/PROVISIONAL · bronmaten <code>design/dimensions.yaml</code> · beslissingen <code>docs/03-design-decisions.md</code> · open <code>docs/04-open-questions.md</code>.</p>
+      <p>Reviews worden alleen in deze browser bewaard (localStorage). Na de sessie: overzetten naar docs.</p>
+    </footer>
+  </div>
+
+  <script>
+    (function () {
+      const KEY = "pieter-briefing-reviews";
+      const IDS = ["C1", "C2", "C3", "C4", "C5", "C6", "C7", "C8", "C9"];
+
+      function load() {
+        try { return JSON.parse(localStorage.getItem(KEY) || "{}"); }
+        catch (e) { return {}; }
+      }
+      function save(data) { localStorage.setItem(KEY, JSON.stringify(data)); }
+
+      function mountRow(el) {
+        const id = el.getAttribute("data-review");
+        const data = load();
+        const cur = data[id] || { status: null, tip: "" };
+        el.innerHTML =
+          '<button type="button" class="ok" data-v="ok" aria-pressed="' + (cur.status === "ok") + '">ok</button>' +
+          '<button type="button" class="twijfel" data-v="twijfel" aria-pressed="' + (cur.status === "twijfel") + '">twijfel</button>' +
+          '<button type="button" class="anders" data-v="anders" aria-pressed="' + (cur.status === "anders") + '">anders</button>' +
+          '<textarea class="tip" placeholder="Jouw tip / anders…" data-tip="' + id + '"></textarea>';
+        const ta = el.querySelector("textarea");
+        ta.value = cur.tip || "";
+
+        el.querySelectorAll("button").forEach(function (btn) {
+          btn.addEventListener("click", function () {
+            const d = load();
+            d[id] = d[id] || { status: null, tip: "" };
+            d[id].status = btn.getAttribute("data-v");
+            d[id].tip = ta.value;
+            save(d);
+            mountRow(el);
+          });
+        });
+        ta.addEventListener("change", function (ev) {
+          const d = load();
+          d[id] = d[id] || { status: null, tip: "" };
+          d[id].tip = ev.target.value;
+          save(d);
+        });
+      }
+
+      document.querySelectorAll("[data-review]").forEach(mountRow);
+
+      document.getElementById("btnExport").addEventListener("click", function () {
+        const d = load();
+        const lines = IDS.map(function (id) {
+          const r = d[id] || { status: "—", tip: "" };
+          return id + "\t" + (r.status || "—") + "\t" + (r.tip || "");
+        });
+        const pre = document.getElementById("reviewDump");
+        pre.hidden = false;
+        pre.textContent = "id\tstatus\ttip\n" + lines.join("\n");
+      });
+
+      document.getElementById("btnClear").addEventListener("click", function () {
+        localStorage.removeItem(KEY);
+        document.querySelectorAll("[data-review]").forEach(mountRow);
+        const pre = document.getElementById("reviewDump");
+        pre.hidden = true;
+        pre.textContent = "";
+      });
+    })();
+  </script>
+</body>
+</html>

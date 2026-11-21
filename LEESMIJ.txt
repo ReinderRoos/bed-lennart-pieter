@@ -1,0 +1,5 @@
+Deelpakket voor Pieter — live via GitHub Pages.
+
+Na deploy: https://reinderroos.github.io/bed-lennart-pieter/
+
+Bronbestanden in deze map; hoofdproject blijft apart (lokaal).

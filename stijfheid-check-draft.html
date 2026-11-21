@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="utf-8" />
+  <title>DRAFT — stijfheid check met Pieter</title>
+  <style>
+    :root { font-family: "Segoe UI", system-ui, sans-serif; color: #1a1a1a; line-height: 1.4; }
+    body { max-width: 40rem; margin: 1.25rem auto; padding: 0 1rem; }
+    .stamp { background: #c45c26; color: #fff; font-weight: 700; padding: .15rem .5rem; font-size: .8rem; }
+    h1 { font-size: 1.35rem; margin: .6rem 0; }
+    h2 { font-size: 1.05rem; margin: 1.2rem 0 .4rem; }
+    label { display: flex; gap: .5rem; align-items: flex-start; margin: .35rem 0; cursor: pointer; }
+    .box { border: 1px solid #ccc; padding: .75rem 1rem; background: #faf8f4; margin: .5rem 0; }
+    .muted { color: #555; font-size: .9rem; }
+    button { font-size: 1rem; padding: .4rem .8rem; margin-top: .5rem; }
+    #result { font-weight: 700; margin-top: .75rem; }
+    textarea { width: 100%; min-height: 4rem; font: inherit; }
+  </style>
+</head>
+<body>
+  <p><a href="index.html">← Overzicht</a></p>
+  <p><span class="stamp">DRAFT / PROTOTYPE</span> — snel met Pieter; geen labtest</p>
+  <h1>Stijfheid — korte check</h1>
+  <p class="muted">Doel: “goed genoeg om door te gaan” of “eerst versterken”. Geen mm-meting verplicht.</p>
+
+  <h2>A. Papier (al gedaan / 1 min)</h2>
+  <div class="box">
+    <label><input type="checkbox" data-k="a1"> Middenbalk C24 ~44×120: <code>frame_checks.py</code> L/300 OK (zonder middensteun)</label>
+    <label><input type="checkbox" data-k="a2"> Eindframes permanent + knieschoren-richting (D007) afgesproken</label>
+  </div>
+
+  <h2>B. Droge racking (2–3 min, met Pieter)</h2>
+  <p class="muted">Frame op poten, <strong>zonder</strong> matras/lattenbodem bij voorkeur. Duw met vlakke hand.</p>
+  <div class="box">
+    <label><input type="checkbox" data-k="b1"> Langs de lange zijde duwen (open ↔ laden): weinig parallellogram, komt terug</label>
+    <label><input type="checkbox" data-k="b2"> Dwars duwen (kop ↔ voet): zelfde gevoel</label>
+    <label><input type="checkbox" data-k="b3"> Geen klaar kraken / tikken in hoeken bij duwen</label>
+    <label><input type="checkbox" data-k="b4"> Na demontage één lange zijde los→vast: nog steeds ok</label>
+  </div>
+
+  <h2>C. Oordeel</h2>
+  <div class="box">
+    <label><input type="radio" name="v" value="ok"> OK — door naar detailleren / zagen-DRAFT</label>
+    <label><input type="radio" name="v" value="twijfel"> Twijfel — Pieter-tip (dikkere schoor / plaat) vóór FINAL</label>
+    <label><input type="radio" name="v" value="fail"> Niet ok — eerst versterken (D007-escalatie)</label>
+  </div>
+  <p><label class="muted">Tip / notitie<br><textarea id="tip" placeholder="Pieter zei…"></textarea></label></p>
+  <button type="button" id="go">Samenvatting tonen</button>
+  <p id="result"></p>
+  <p class="muted" id="copy"></p>
+
+  <script>
+    document.getElementById("go").onclick = () => {
+      const keys = [...document.querySelectorAll("input[data-k]")];
+      const done = keys.filter((x) => x.checked).length;
+      const v = (document.querySelector("input[name=v]:checked") || {}).value || "—";
+      const tip = document.getElementById("tip").value.trim();
+      const map = { ok: "OK", twijfel: "TWIJFEL", fail: "NIET OK" };
+      const line = `Stijfheidcheck: ${map[v] || v} · checks ${done}/${keys.length}` + (tip ? ` · tip: ${tip}` : "");
+      document.getElementById("result").textContent = line;
+      document.getElementById("copy").textContent = "Plak in docs/04 of decision-log indien nodig.";
+    };
+  </script>
+</body>
+</html>
